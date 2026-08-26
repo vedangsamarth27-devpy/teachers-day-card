@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <link rel="stylesheet" href="style2.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Teacher's Day 💖</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow: hidden;
+        font-family: Georgia, serif;
+        background: linear-gradient(135deg, #fff1f8, #e9f7ff, #fff8dc);
+        color: #44263a;
+    }
+
+    /* ---------------- PAGES ---------------- */
+
+    .page {
+        position: absolute;
+        inset: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 25px;
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.05);
+        transition: 0.8s ease;
+    }
+
+    .page.active {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+
+    .card {
+        width: min(850px, 94vw);
+        min-height: 550px;
+        padding: 45px;
+        border-radius: 35px;
+        background: rgba(255,255,255,0.78);
+        backdrop-filter: blur(12px);
+        box-shadow:
+            0 20px 60px rgba(100, 50, 100, 0.18),
+            inset 0 0 30px rgba(255,255,255,0.7);
+        border: 2px solid rgba(255,255,255,0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+    }
+
+    /* ---------------- PAGE 1 ---------------- */
+
+    .welcome {
+        font-size: clamp(32px, 6vw, 58px);
+        color: #c34b83;
+        margin-bottom: 12px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        margin-bottom: 25px;
+        color: #735267;
+    }
+
+    .math-box {
+        background: #fff7fb;
+        padding: 18px 25px;
+        border-radius: 18px;
+        margin: 12px 0 22px;
+        box-shadow: 0 5px 20px rgba(180,80,130,0.1);
+    }
+
+    .math-question {
+        font-size: 25px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    input[type="number"] {
+        width: 130px;
+        padding: 12px;
+        border: 2px solid #e5a8c5;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 20px;
+        outline: none;
+    }
+
+    input[type="number"]:focus {
+        border-color: #c34b83;
+    }
+
+    .assertion {
+        max-width: 700px;
+        text-align: left;
+        background: #f9f2ff;
+        padding: 20px;
+        border-radius: 18px;
+        margin-bottom: 18px;
+        line-height: 1.6;
+    }
+
+    .assertion strong {
+        color: #9a4fa0;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        max-width: 650px;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .option {
+        padding: 10px 15px;
+        border-radius: 12px;
+        transition: 0.2s;
+    }
+
+    .option:hover {
+        background: #fff0f7;
+    }
+
+    .option label {
+        cursor: pointer;
+    }
+
+    .option input {
+        margin-right: 8px;
+    }
+
+    button {
+        border: none;
+        padding: 14px 32px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #d65b91, #9b5de5);
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(160,70,140,0.25);
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: translateY(-3px) scale(1.03);
+        box-shadow: 0 12px 25px rgba(160,70,140,0.3);
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+        transform: none;
+    }
+
+    #result {
+        margin-top: 12px;
+        min-height: 25px;
+        font-weight: bold;
+    }
+
+    /* ---------------- PAGE 2 ---------------- */
+
+    .teachers-title {
+        font-family: "Brannboll", "Brush Script MT", cursive;
+        font-size: clamp(48px, 9vw, 90px);
+        color: #d14d82;
+        text-shadow: 3px 4px 0 #ffd6e7;
+        animation: titleFloat 3s ease-in-out infinite;
+    }
+
+    .small-text {
+        margin-top: 10px;
+        font-size: 20px;
+        color: #76506a;
+    }
+
+    /* CAKE */
+
+    .cake {
+        position: relative;
+        width: 260px;
+        height: 190px;
+        margin-top: 45px;
+        animation: cakeFloat 3s ease-in-out infinite;
+    }
+
+    .cake-top {
+        position: absolute;
+        top: 35px;
+        left: 25px;
+        width: 210px;
+        height: 45px;
+        border-radius: 50%;
+        background: #ffb6cf;
+        border: 4px solid #d96c99;
+        z-index: 3;
+    }
+
+    .cake-body {
+        position: absolute;
+        top: 55px;
+        left: 25px;
+        width: 210px;
+        height: 100px;
+        background: linear-gradient(#ff9fc2, #e978a4);
+        border-radius: 8px 8px 25px 25px;
+        border: 4px solid #d96c99;
+    }
+
+    .cream {
+        position: absolute;
+        top: 65px;
+        left: 30px;
+        width: 200px;
+        height: 25px;
+        background: #fff5fb;
+        border-radius: 0 0 20px 20px;
+        z-index: 4;
+    }
+
+    .candle {
+        position: absolute;
+        width: 14px;
+        height: 55px;
+        background: repeating-linear-gradient(
+            45deg,
+            #fff,
+            #fff 7px,
+            #8bd3dd 7px,
+            #8bd3dd 14px
+        );
+        top: -18px;
+        border-radius: 5px;
+        z-index: 5;
+    }
+
+    .candle:nth-child(1) {
+        left: 75px;
+    }
+
+    .candle:nth-child(2) {
+        left: 123px;
+    }
+
+    .candle:nth-child(3) {
+        left: 171px;
+    }
+
+    .flame {
+        position: absolute;
+        width: 18px;
+        height: 25px;
+        background: #ffd166;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        top: -43px;
+        left: -2px;
+        box-shadow: 0 0 18px #ffb703;
+        animation: flicker 0.5s infinite alternate;
+    }
+
+    .decoration {
+        position: absolute;
+        font-size: 20px;
+        z-index: 6;
+    }
+
+    .dec1 { left: 45px; top: 100px; }
+    .dec2 { left: 110px; top: 125px; }
+    .dec3 { left: 175px; top: 100px; }
+
+    /* ---------------- PAGE 3 & 4 ---------------- */
+
+    .message {
+        font-size: clamp(30px, 5vw, 55px);
+        line-height: 1.35;
+        color: #693c61;
+        max-width: 700px;
+        font-weight: 600;
+    }
+
+    .message span {
+        color: #d05287;
+    }
+
+    .heart {
+        font-size: 60px;
+        margin-bottom: 25px;
+        animation: heartbeat 1.2s infinite;
+    }
+
+    .final-message {
+        font-size: clamp(28px, 4.5vw, 50px);
+        line-height: 1.45;
+        color: #653d5c;
+        max-width: 720px;
+    }
+
+    .signature {
+        margin-top: 35px;
+        font-family: "King Basil", "Brush Script MT", cursive;
+        font-size: clamp(45px, 8vw, 75px);
+        color: #c3477d;
+    }
+
+    .nav-button {
+        margin-top: 35px;
+    }
+
+    /* ---------------- DECORATIONS ---------------- */
+
+    .sparkle {
+        position: fixed;
+        color: #e89ac0;
+        font-size: 22px;
+        animation: sparkle 4s linear infinite;
+        pointer-events: none;
+    }
+
+    .s1 { top: 12%; left: 10%; animation-delay: 0s; }
+    .s2 { top: 25%; right: 12%; animation-delay: 1s; }
+    .s3 { bottom: 18%; left: 15%; animation-delay: 2s; }
+    .s4 { bottom: 10%; right: 18%; animation-delay: 3s; }
+
+    /* ---------------- ANIMATIONS ---------------- */
+
+    @keyframes titleFloat {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @keyframes cakeFloat {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+    }
+
+    @keyframes flicker {
+        from {
+            transform: rotate(-45deg) scale(1);
+            opacity: 1;
+        }
+        to {
+            transform: rotate(-40deg) scale(1.15);
+            opacity: 0.8;
+        }
+    }
+
+    @keyframes heartbeat {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+    }
+
+    @keyframes sparkle {
+        0% {
+            transform: translateY(30px) rotate(0deg);
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) rotate(180deg);
+            opacity: 0;
+        }
+    }
+
+    @media(max-width:600px) {
+        .card {
+            min-height: 90vh;
+            padding: 25px 18px;
+        }
+
+        .assertion {
+            font-size: 14px;
+        }
+
+        .cake {
+            transform: scale(0.8);
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Floating sparkles -->
+<div class="sparkle s1">✦</div>
+<div class="sparkle s2">♡</div>
+<div class="sparkle s3">✧</div>
+<div class="sparkle s4">✦</div>
+
+<!-- ================= PAGE 1 ================= -->
+
+<section class="page active" id="page1">
+    <div class="card">
+
+        <h1 class="welcome">A Little Challenge First! 🌸</h1>
+
+        <p class="subtitle">
+            A special Teacher's Day card deserves a special entrance.
+        </p>
+
+        <div class="math-box">
+            <div class="math-question">
+                Solve: 15 × 4 − 18 ÷ 3 = ?
+            </div>
+
+            <input
+                type="number"
+                id="mathAnswer"
+                placeholder="Answer"
+                oninput="checkUnlock()"
+            >
+        </div>
+
+        <div class="assertion">
+            <strong>Assertion:</strong>
+            The subject taught by you was tough!! but not stressful.<br><br>
+
+            <strong>Reason:</strong>
+            You taught that subject.
+        </div>
+
+        <div class="options">
+
+            <div class="option">
+                <label>
+                    <input type="radio" name="reason" value="A"
+                           onchange="checkUnlock()">
+                    <strong>A.</strong> Both Assertion and Reason are true,
+                    and Reason is the correct explanation of Assertion.
+                </label>
+            </div>
+
+            <div class="option">
+                <label>
+                    <input type="radio" name="reason" value="B"
+                           onchange="checkUnlock()">
+                    <strong>B.</strong> Both are true, but Reason is not
+                    the correct explanation.
+                </label>
+            </div>
+
+            <div class="option">
+                <label>
+                    <input type="radio" name="reason" value="C"
+                           onchange="checkUnlock()">
+                    <strong>C.</strong> Assertion is true, but Reason is false.
+                </label>
+            </div>
+
+            <div class="option">
+                <label>
+                    <input type="radio" name="reason" value="D"
+                           onchange="checkUnlock()">
+                    <strong>D.</strong> Assertion is false, but Reason is true.
+                </label>
+            </div>
+
+        </div>
+
+        <button id="startButton" onclick="goToPage(2)" disabled>
+            🔐 START
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+</section>
+
+
+<!-- ================= PAGE 2 ================= -->
+
+<section class="page" id="page2">
+    <div class="card">
+
+        <h1 class="teachers-title">
+            Happy Teachers Day
+        </h1>
+
+        <p class="small-text">
+            To the teacher who made learning special 💕
+        </p>
+
+        <div class="cake">
+
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+
+            <div class="cake-top"></div>
+            <div class="cream"></div>
+            <div class="cake-body"></div>
+
+            <div class="decoration dec1">🍓</div>
+            <div class="decoration dec2">♡</div>
+            <div class="decoration dec3">🍓</div>
+
+        </div>
+
+        <button class="nav-button" onclick="goToPage(3)">
+            Next 💌
+        </button>
+
+    </div>
+</section>
+
+
+<!-- ================= PAGE 3 ================= -->
+
+<section class="page" id="page3">
+    <div class="card">
+
+        <div class="heart">💖</div>
+
+        <p class="message">
+            Many teachers will teach me in future,
+            <br>
+            but <span>I will always remember you.</span>
+        </p>
+
+        <button class="nav-button" onclick="goToPage(4)">
+            One Last Message ✨
+        </button>
+
+    </div>
+</section>
+
+
+<!-- ================= PAGE 4 ================= -->
+
+<section class="page" id="page4">
+    <div class="card">
+
+        <div class="heart">🌷</div>
+
+        <p class="final-message">
+            Thank you for your time
+            <br>
+            and for believing in me.
+        </p>
+
+        <div class="signature">
+            — VEDANG
+        </div>
+
+        <p class="small-text">
+            With gratitude, always. ❤️
+        </p>
+
+    </div>
+</section>
+
+
+<script>
+
+    /* ---------------- PAGE NAVIGATION ---------------- */
+
+    function goToPage(pageNumber) {
+
+        document.querySelectorAll(".page").forEach(page => {
+            page.classList.remove("active");
+        });
+
+        document.getElementById("page" + pageNumber)
+            .classList.add("active");
+
+        // Small burst of confetti when changing pages
+        createConfetti();
+    }
+
+
+    /* ---------------- UNLOCK PAGE 1 ---------------- */
+
+    function checkUnlock() {
+
+        const answer =
+            document.getElementById("mathAnswer").value;
+
+        const selected =
+            document.querySelector('input[name="reason"]:checked');
+
+        const button =
+            document.getElementById("startButton");
+
+        const result =
+            document.getElementById("result");
+
+        /*
+           15 × 4 − 18 ÷ 3
+           = 60 − 6
+           = 54
+        */
+
+        const mathCorrect = Number(answer) === 54;
+        const reasonCorrect = selected && selected.value === "A";
+
+        if (mathCorrect && reasonCorrect) {
+
+            button.disabled = false;
+
+            result.innerHTML =
+                "✨ Correct! Your Teacher's Day card is unlocked! ✨";
+
+            result.style.color = "#29965a";
+
+        } else {
+
+            button.disabled = true;
+
+            if (answer !== "" && Number(answer) !== 54) {
+                result.innerHTML =
+                    "Keep trying! Check the order of operations 🧠";
+                result.style.color = "#c85b6e";
+            } else if (selected && selected.value !== "A") {
+                result.innerHTML =
+                    "Hmm... think about why the subject wasn't stressful. 😉";
+                result.style.color = "#c85b6e";
+            } else {
+                result.innerHTML = "";
+            }
+        }
+    }
+
+
+    /* ---------------- CONFETTI ---------------- */
+
+    function createConfetti() {
+
+        const colors = [
+            "#ff8fab",
+            "#cdb4db",
+            "#90dbf4",
+            "#ffd166",
+            "#b9fbc0"
+        ];
+
+        for (let i = 0; i < 25; i++) {
+
+            const confetti =
+                document.createElement("div");
+
+            confetti.style.position = "fixed";
+            confetti.style.left =
+                Math.random() * 100 + "vw";
+
+            confetti.style.top = "-10px";
+
+            confetti.style.width = "8px";
+            confetti.style.height = "8px";
+
+            confetti.style.background =
+                colors[Math.floor(Math.random() * colors.length)];
+
+            confetti.style.borderRadius =
+                Math.random() > 0.5 ? "50%" : "2px";
+
+            confetti.style.zIndex = "9999";
+
+            confetti.style.pointerEvents = "none";
+
+            const duration =
+                2 + Math.random() * 2;
+
+            confetti.style.transition =
+                `top ${duration}s linear, transform ${duration}s linear, opacity ${duration}s`;
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+
+                confetti.style.top =
+                    "110vh";
+
+                confetti.style.transform =
+                    `rotate(${Math.random() * 720}deg)`;
+
+                confetti.style.opacity = "0";
+
+            }, 50);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, duration * 1000 + 200);
+        }
+    }
+
+</script>
+<script src="script2.js"></script>
+
+</body>
+</html>
